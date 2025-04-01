@@ -32,7 +32,10 @@ npm add --save @uvdsl/solid-rdf-store
 
 
 ## Vue Example with Reactivity
-I use [Vue](https://vuejs.org/) for my apps, so here is a quick usage example. 
+I use [Vue](https://vuejs.org/) for my apps. 
+If you want to see how this library is used in a Vue app, look at my [Solid App Template (Vue Edition)](https://github.com/uvdsl/solid-app-template-vue).
+
+Here is a quick usage example. 
 It should (TM) work the same with the other frameworks... Let me know.
 
 Define composable `useSolidRdfStore`
