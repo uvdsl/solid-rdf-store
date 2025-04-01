@@ -37,13 +37,13 @@ It should (TM) work the same with the other frameworks... Let me know.
 
 Define composable `useSolidRdfStore`
 ```ts
-import { reactive } from "vue";
-import { WebReactiveQuintStore } from "@uvdsl/solid-rdf-store"
-const store = reactive(new WebReactiveQuintStore());
+  import { reactive } from "vue";
+  import { WebReactiveQuintStore } from "@uvdsl/solid-rdf-store"
+  const store = reactive(new WebReactiveQuintStore());
 
-export const useSolidRdfStore = () => {
-  return { store };
-};
+  export const useSolidRdfStore = () => {
+    return { store };
+  };
 ```
 
 Use the store in a component ...
