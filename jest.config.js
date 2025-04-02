@@ -12,7 +12,6 @@ module.exports = {
     moduleFileExtensions: [
         'js',
         'ts',
-        'vue',
       ],
       moduleNameMapper: {
         '^@shared/(.*)$': '<rootDir>/../$1',
@@ -31,4 +30,5 @@ module.exports = {
           'node-addons',
         ],
       },
-    }
+      setupFiles: ['./jest.setup.js'],
+}
