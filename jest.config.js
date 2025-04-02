@@ -1,17 +1,14 @@
 module.exports = {
     testEnvironment: 'jsdom',
     verbose: false,
-    setupFilesAfterEnv: ['<rootDir>/../../jest-setup.ts'],
-      
     transform: {
-      '^.+\\.vue$': '@vue/vue3-jest',
       '^.+\\.jsx?$': 'babel-jest',
       '^.+\\.tsx?$': [
         'ts-jest',
         {},
       ],
     },
-    testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.(js|ts)$',
+    testRegex: '(/__spec__/.*|(\\.|/)(test|spec))\\.(js|ts)$',
     moduleFileExtensions: [
         'js',
         'ts',
@@ -22,7 +19,7 @@ module.exports = {
       },
       coveragePathIgnorePatterns: [
         '/node_modules/',
-        '/tests/',
+        '/spec/',
       ],
       coverageReporters: [
         'text',
