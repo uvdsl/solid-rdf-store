@@ -39,7 +39,8 @@ export class WebReactiveQuintStore extends ReactiveQuintStore {
         const { store } = await parseToN3(data, dataset);
         this.update(dataset, store);
       } catch (error) {
-        console.error("Failed to update dataset:", dataset, error);
+        console.warn("Failed to update dataset:", dataset, error);
+        throw error;
       } finally {
         this.datasetsLoading.delete(dataset); // Ensure clean-up
       }
