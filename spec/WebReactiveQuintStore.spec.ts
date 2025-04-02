@@ -110,17 +110,7 @@ describe('WebReactiveQuintStore', () => {
             const mockError = new Error('Network error');
             (getResource as jest.Mock).mockRejectedValue(mockError);
 
-            const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
-
-            await store.updateFromWeb('dataset-url');
-
-            expect(consoleSpy).toHaveBeenCalledWith(
-                'Failed to update dataset:',
-                'dataset-url',
-                mockError
-            );
-
-            consoleSpy.mockRestore();
+            await expect(store.updateFromWeb('dataset-url')).rejects.toThrow(mockError);
         });
 
         it('should clean up datasetsLoading even if an error occurs', async () => {
@@ -128,7 +118,7 @@ describe('WebReactiveQuintStore', () => {
             (getResource as jest.Mock).mockRejectedValue(new Error('Network error'));
             jest.spyOn(console, 'error').mockImplementation();
 
-            await store.updateFromWeb('dataset-url');
+            await store.updateFromWeb('dataset-url').catch(() => []);
 
             // Try to update again - if cleanup worked, getResource should be called
             (getResource as jest.Mock).mockResolvedValue({ data: 'mock-data' });
