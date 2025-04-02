@@ -1,19 +1,5 @@
 import { Quad, Store } from "n3";
 import { QuintStore } from "../src/QuintStore";
-import { Quint } from "../src/Quint";
-
-// Mock the Quint class in case it's not directly available for testing
-jest.mock("../src/Quint", () => {
-    return {
-        Quint: jest.fn((s, p, o, g, d) => ({
-            subject: s,
-            predicate: p,
-            object: o,
-            graph: g,
-            dataset: d
-        }))
-    };
-});
 
 /**
  * @jest-environment node

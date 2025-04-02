@@ -13,8 +13,8 @@ export class ReactiveQuintStore extends QuintStore {
   private queries: { [dataset: string]: QuintQuery[] } = {};
 
   getQuintReactive(subject: string | null, predicate: string | null, object: string | null, graph: string | null, dataset: string | null) {
-    const query = new QuintQuery(subject, predicate, object, graph, dataset, []);
     dataset = dataset ? this._stripFragment(dataset) : "null";
+    const query = new QuintQuery(subject, predicate, object, graph, dataset, []);
     // if the dataset has not been queried before, make sure a query list exists
     if (!this.queries[dataset]) {
       this.queries[dataset] = [];
@@ -45,8 +45,8 @@ export class ReactiveQuintStore extends QuintStore {
       // run query
       const newResult = this.getQuint(query.subject, query.predicate, query.object, query.graph, query.dataset);
       // update result
-      query.result.length = 0
-      query.result.push(...newResult)
+      query.result.length = 0;
+      query.result.push(...newResult);
     }
     return this;
   }
