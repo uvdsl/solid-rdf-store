@@ -7,7 +7,7 @@
   "keywords": [],
   "repository": {
     "type": "git",
-    "url": "https://github.com/uvdsl/solid-requests.git"
+    "url": "https://github.com/uvdsl/solid-rdf-store.git"
   },
   "scripts": {
     "compile": "tsc -b ./tsconfig.cjs.json ./tsconfig.esm.json ./tsconfig.types.json",
