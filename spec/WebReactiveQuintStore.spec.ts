@@ -2,6 +2,8 @@ import { ReactiveQuintStore } from '../src/ReactiveQuintStore';
 import { WebReactiveQuintStore } from '../src/WebReactiveQuintStore';
 import { Session } from '@uvdsl/solid-oidc-client-browser';
 import { getResource, parseToN3 } from '@uvdsl/solid-requests';
+import { WebReactiveResultError } from '../src/WebReactiveResultError';
+import { Quint } from '../src/Quint';
 
 
 // Mock dependencies
@@ -75,6 +77,27 @@ describe('WebReactiveQuintStore', () => {
             expect(mockGetQuintReactive).toHaveBeenCalledWith('subject', 'predicate', 'object', 'graph', 'dataset-url');
             expect(result).toBe('mock-result');
         });
+
+        it('should throw an error if updateFromWeb fails and still provide a reactive result', async () => {
+            const store = new WebReactiveQuintStore();
+            mockHas.mockReturnValue(false);
+            const mockResult: Quint[] = [];
+            mockGetQuintReactive.mockReturnValue(mockResult);
+            const mockError = new WebReactiveResultError(mockResult, new Error('Network error'));
+
+            const updateFromWebSpy = jest.spyOn(store, 'updateFromWeb').mockRejectedValue(mockError);
+
+            try {
+                await store.getQuintReactiveFromWeb('subject', 'predicate', 'object', 'graph', 'dataset-url');
+            } catch (error) {
+                expect(error).toBeInstanceOf(WebReactiveResultError);
+                expect((error as WebReactiveResultError).message).toContain('Network error');
+                expect((error as WebReactiveResultError).reactiveResult).toBe(mockResult); 
+            }
+            expect(mockHas).toHaveBeenCalledWith('dataset-url');
+            expect(updateFromWebSpy).toHaveBeenCalledWith('dataset-url');
+            expect(mockGetQuintReactive).toHaveBeenCalledWith('subject', 'predicate', 'object', 'graph', 'dataset-url');
+        });
     });
 
     describe('updateFromWeb', () => {
@@ -109,7 +132,6 @@ describe('WebReactiveQuintStore', () => {
             const store = new WebReactiveQuintStore();
             const mockError = new Error('Network error');
             (getResource as jest.Mock).mockRejectedValue(mockError);
-
             await expect(store.updateFromWeb('dataset-url')).rejects.toThrow(mockError);
         });
 
