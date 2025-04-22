@@ -7,8 +7,12 @@ import { Quint } from '../src/Quint';
 
 
 // Mock dependencies
+jest.mock('@uvdsl/solid-oidc-client-browser', () => ({
+    Session: jest.fn()
+}));
 jest.mock('@uvdsl/solid-requests');
 jest.mock('../src/ReactiveQuintStore');
+
 
 // Spy on specific methods instead of mocking the whole class
 const mockGetQuintReactive = jest.fn();
@@ -24,7 +28,7 @@ beforeEach(() => {
     jest.spyOn(ReactiveQuintStore.prototype, 'has').mockImplementation(mockHas);
 
     // Mock getResource and parseToN3
-    (getResource as jest.Mock).mockResolvedValue({ data: 'mock-data' });
+    (getResource as jest.Mock).mockResolvedValue({ text: async () => 'mock-data' });
     (parseToN3 as jest.Mock).mockResolvedValue({ store: 'mock-store' });
 });
 
@@ -92,7 +96,7 @@ describe('WebReactiveQuintStore', () => {
             } catch (error) {
                 expect(error).toBeInstanceOf(WebReactiveResultError);
                 expect((error as WebReactiveResultError).message).toContain('Network error');
-                expect((error as WebReactiveResultError).reactiveResult).toBe(mockResult); 
+                expect((error as WebReactiveResultError).reactiveResult).toBe(mockResult);
             }
             expect(mockHas).toHaveBeenCalledWith('dataset-url');
             expect(updateFromWebSpy).toHaveBeenCalledWith('dataset-url');
@@ -143,7 +147,7 @@ describe('WebReactiveQuintStore', () => {
             await store.updateFromWeb('dataset-url').catch(() => []);
 
             // Try to update again - if cleanup worked, getResource should be called
-            (getResource as jest.Mock).mockResolvedValue({ data: 'mock-data' });
+            (getResource as jest.Mock).mockResolvedValue({ text: async () => 'mock-data' });
             await store.updateFromWeb('dataset-url');
 
             expect(getResource).toHaveBeenCalledTimes(2);

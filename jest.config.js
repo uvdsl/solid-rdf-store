@@ -1,34 +1,18 @@
 module.exports = {
-    testEnvironment: 'jsdom',
-    verbose: false,
-    transform: {
-      '^.+\\.jsx?$': 'babel-jest',
-      '^.+\\.tsx?$': [
-        'ts-jest',
-        {},
-      ],
-    },
-    testRegex: '(/__spec__/.*|(\\.|/)(test|spec))\\.(js|ts)$',
-    moduleFileExtensions: [
-        'js',
-        'ts',
-      ],
-      moduleNameMapper: {
-        '^@shared/(.*)$': '<rootDir>/../$1',
-      },
-      coveragePathIgnorePatterns: [
-        '/node_modules/',
-        '/spec/',
-      ],
-      coverageReporters: [
-        'text',
-        'json-summary',
-      ],
-      testEnvironmentOptions: {
-        customExportConditions: [
-          'node',
-          'node-addons',
-        ],
-      },
-      setupFiles: ['./jest.setup.js'],
-}
+  preset: 'ts-jest/presets/default-esm',
+  testEnvironment: 'jsdom',
+  extensionsToTreatAsEsm: ['.ts'],
+  verbose: false,
+  setupFilesAfterEnv: ['<rootDir>/jest-setup.js'],
+  testMatch: ['<rootDir>/spec/**/?(*.)+(spec|test).ts'],
+  collectCoverage: true,
+  coveragePathIgnorePatterns: [
+    '/node_modules/',
+    '/tests/',
+  ],
+  collectCoverageFrom: [
+    'src/**/*.ts',
+  ],
+  coverageDirectory: '<rootDir>/coverage',
+  coverageReporters: ['text', 'lcov', 'json'],
+};

@@ -24,6 +24,7 @@ export class WebReactiveQuintStore extends ReactiveQuintStore {
   }
 
   async getQuintReactiveFromWeb(subject: string | null, predicate: string | null, object: string | null, graph: string | null, dataset: string | null) {
+    // dataset = dataset ? this._stripFragment(dataset) : "null";
     if (dataset && !this.has(dataset)) {
       try {
         await this.updateFromWeb(dataset)
@@ -35,12 +36,13 @@ export class WebReactiveQuintStore extends ReactiveQuintStore {
   }
 
   async updateFromWeb(dataset: string) {
+    // dataset = dataset ? this._stripFragment(dataset) : "null";
     if (this.datasetsLoading.has(dataset)) { // Skip if already fetching from web
       return this;
     }
     this.datasetsLoading.add(dataset);
     try {
-      const data = (await getResource(dataset, this.config.session)).data;
+      const data = await (await getResource(dataset, this.config.session)).text();
       const { store } = await parseToN3(data, dataset);
       this.update(dataset, store);
     } catch (error) {
