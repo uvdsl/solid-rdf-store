@@ -1,6 +1,6 @@
 {
   "name": "@uvdsl/solid-rdf-store",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "author": "uvdsl - Christoph Braun",
   "license": "MIT",
   "description": "A small library that provides an RDF store with Web fetching and reactive results.",
